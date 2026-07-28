@@ -1078,7 +1078,7 @@
 textarea.new_message_textarea {
     display: table-cell;
     padding: 5px 5px 0;
-    height: 1.5em;
+    height: 2.25em;
     max-height: 22em;
     margin: 0;
     resize: none !important;
@@ -1255,6 +1255,16 @@ textarea.new_message_textarea {
     .message_comp {
         display: block;
     }
+}
+
+/* The compose box should always stay open, like a persistent
+   messenger input bar, rather than needing to be clicked open. */
+#closed-compose-controls {
+    display: none !important;
+}
+
+.message_comp {
+    display: block !important;
 }
 
 /* We want transitions to run only on user interactions with
