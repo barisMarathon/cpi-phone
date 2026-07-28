@@ -1113,6 +1113,12 @@ ul.popover-group-menu-member-list {
         }
     }
 
+    /* Our deployment is locked to the light theme (see
+       web/src/theme.ts), so hide the now-nonfunctional theme picker. */
+    .popover-menu-list-item:has(> .popover-menu-tab-group) {
+        display: none;
+    }
+
     .status_emoji {
         align-self: flex-start;
         flex-shrink: 0;
@@ -1320,6 +1326,12 @@ ul.popover-group-menu-member-list {
         switcher has font size set to 1.0666em. So, we need space of
         0.6666/1.0666 em on each side. */
         margin: 0 0.625em;
+    }
+
+    /* Our deployment is locked to the light theme (see
+       web/src/theme.ts), so hide the now-nonfunctional theme picker. */
+    .popover-menu-list-item:has(> .theme-switcher) {
+        display: none;
     }
 
     .info-density-controls {

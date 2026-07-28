@@ -2537,3 +2537,9 @@ label.preferences-radio-choice-label {
         }
     }
 }
+
+/* Our deployment is locked to the light theme (see web/src/theme.ts),
+   so hide the now-nonfunctional theme picker from settings. */
+.input-group:has(> label[for$="color_scheme"]) {
+    display: none;
+}

@@ -317,10 +317,9 @@
     /* 15px at 8px/1em (masked unreads are sized to 0.5em) */
     --left-sidebar-single-digit-unread-width: 1.875em;
     --left-sidebar-right-margin: 12px;
-    /* 289px at 14px/1em */
-    --left-sidebar-max-width: calc(
-        20.6429em - var(--left-sidebar-right-margin)
-    );
+    /* 322px at 14px/1em; a bit wider/more prominent than upstream's
+       289px default. */
+    --left-sidebar-max-width: calc(23em - var(--left-sidebar-right-margin));
     --realm-logo-max-width: 12.5em; /* 200px at 16px em */
     /* Value updated on realm_logo.render() */
     --realm-logo-current-width: var(--realm-logo-max-width);
@@ -1028,7 +1027,7 @@
         hsl(0deg 0% 0% / 10%),
         hsl(0deg 0% 100% / 10%)
     );
-    --color-icon-purple: hsl(240deg 35% 60%);
+    --color-icon-purple: hsl(180deg 35% 60%);
     --color-background-popover-menu: light-dark(
         hsl(0deg 0% 100%),
         hsl(0deg 0% 17%)
@@ -1168,7 +1167,7 @@
         hsl(0deg 0% 0%),
         hsl(0deg 0% 100%)
     );
-    --color-background-animated-button-hover: hsl(240deg 96% 68%);
+    --color-background-animated-button-hover: hsl(180deg 96% 68%);
     --color-invalid-input-border: light-dark(
         hsl(3deg 57% 33%),
         hsl(3deg 73% 74%)
@@ -1182,11 +1181,11 @@
         hsl(0deg 0% 100%),
         hsl(0deg 0% 0% / 20%)
     );
-    --color-stream-group-row-checked-icon: hsl(240deg 96% 68%);
-    --color-stream-group-row-checked-icon-hover: hsl(240deg 41% 50%);
+    --color-stream-group-row-checked-icon: hsl(180deg 96% 68%);
+    --color-stream-group-row-checked-icon-hover: hsl(180deg 41% 50%);
     --color-stream-group-row-checked-icon-disabled: light-dark(
-        hsl(240deg 96% 68% / 100%),
-        hsl(240deg 96% 68% / 50%)
+        hsl(180deg 96% 68% / 100%),
+        hsl(180deg 96% 68% / 50%)
     );
     --color-stream-group-row-plus-icon: light-dark(
         hsl(0deg 0% 72%),
@@ -1293,8 +1292,8 @@
         hsl(0deg 0% 0% / 40%)
     );
     --color-compose-send-button-icon-color: hsl(0deg 0% 100%);
-    --color-compose-send-button-background: hsl(240deg 96% 68%);
-    --color-compose-send-button-background-interactive: hsl(240deg 41% 50%);
+    --color-compose-send-button-background: hsl(180deg 96% 68%);
+    --color-compose-send-button-background-interactive: hsl(180deg 41% 50%);
     --color-compose-send-button-focus-border: hsl(232deg 20% 10%);
     --color-compose-send-button-focus-shadow: light-dark(
         hsl(230deg 100% 20%),
@@ -1889,12 +1888,12 @@
         hsl(240deg 35% 68%)
     );
     --color-left-sidebar-dm-partners-icon: light-dark(
-        hsl(240deg 30% 60%),
-        hsl(240deg 35% 58%)
+        hsl(180deg 30% 60%),
+        hsl(180deg 35% 58%)
     );
-    --color-vdots-hint: light-dark(hsl(240deg 30% 80%), hsl(240deg 35% 38%));
-    --color-vdots-visible: light-dark(hsl(240deg 30% 40%), hsl(240deg 35% 68%));
-    --color-vdots-hover: light-dark(hsl(240deg 100% 15%), hsl(240deg 100% 90%));
+    --color-vdots-hint: light-dark(hsl(180deg 30% 80%), hsl(180deg 35% 38%));
+    --color-vdots-visible: light-dark(hsl(180deg 30% 40%), hsl(180deg 35% 68%));
+    --color-vdots-hover: light-dark(hsl(180deg 100% 15%), hsl(180deg 100% 90%));
     --color-tab-picker-icon: light-dark(hsl(200deg 100% 40%), hsl(0deg 0% 80%));
     --color-user-circle-active: light-dark(#43a35e, #4cdc75);
     --color-user-circle-idle: light-dark(#f5b266, #ae640a);
@@ -2239,35 +2238,35 @@
         0 12.177px 21.4737px 0 hsl(0deg 0% 0% / 11%),
         0 18.7257px 35.4802px 0 hsl(0deg 0% 0% / 15%),
         0 41px 80px 0 hsl(0deg 0% 0% / 20%);
-    --color-navbar-icon: light-dark(hsl(240deg 20% 50%), hsl(240deg 35% 60%));
+    --color-navbar-icon: light-dark(hsl(180deg 20% 50%), hsl(180deg 35% 60%));
     --color-navbar-spectator-low-attention-brand-button-text: light-dark(
-        hsl(240deg 40% 50%),
-        hsl(240deg 55% 72% / 100%)
+        hsl(180deg 40% 50%),
+        hsl(180deg 55% 72% / 100%)
     );
     --color-navbar-spectator-low-attention-brand-button-background: transparent;
     --color-navbar-spectator-low-attention-brand-button-background-hover: light-dark(
-        hsl(240deg 100% 30% / 5%),
-        hsl(240deg 56% 70% / 10%)
+        hsl(180deg 100% 30% / 5%),
+        hsl(180deg 56% 70% / 10%)
     );
     --color-navbar-spectator-low-attention-brand-button-background-active: light-dark(
-        hsl(240deg 100% 30% / 8%),
-        hsl(240deg 56% 70% / 13%)
+        hsl(180deg 100% 30% / 8%),
+        hsl(180deg 56% 70% / 13%)
     );
     --color-navbar-spectator-medium-attention-brand-button-text: light-dark(
-        hsl(240deg 40% 40% / 100%),
-        hsl(240deg 64% 76% / 100%)
+        hsl(180deg 40% 40% / 100%),
+        hsl(180deg 64% 76% / 100%)
     );
     --color-navbar-spectator-medium-attention-brand-button-background: light-dark(
-        hsl(244deg 64% 47% / 10%),
-        hsl(240deg 56% 70% / 12%)
+        hsl(184deg 64% 47% / 10%),
+        hsl(180deg 56% 70% / 12%)
     );
     --color-navbar-spectator-medium-attention-brand-button-background-hover: light-dark(
-        hsl(244deg 64% 47% / 15%),
-        hsl(240deg 56% 70% / 17%)
+        hsl(184deg 64% 47% / 15%),
+        hsl(180deg 56% 70% / 17%)
     );
     --color-navbar-spectator-medium-attention-brand-button-background-active: light-dark(
-        hsl(244deg 64% 47% / 18%),
-        hsl(240deg 56% 70% / 12%)
+        hsl(184deg 64% 47% / 18%),
+        hsl(180deg 56% 70% / 12%)
     );
     --color-gear-menu-lighter-text: light-dark(
         hsl(0deg 0% 40%),
@@ -2497,44 +2496,44 @@
         color-mix(in oklch, hsl(0deg 0% 100%) 85%, transparent)
     );
     --color-background-brand-solid-action-button: light-dark(
-        hsl(254deg 99% 68%),
-        hsl(261deg 79% 43%)
+        hsl(194deg 99% 68%),
+        hsl(201deg 79% 43%)
     );
     --color-background-brand-solid-action-button-hover: light-dark(
-        hsl(255deg 81% 61%),
-        hsl(258deg 66% 51%)
+        hsl(195deg 81% 61%),
+        hsl(198deg 66% 51%)
     );
     --color-background-brand-solid-action-button-active: light-dark(
-        hsl(258deg 66% 51%),
-        hsl(261deg 79% 43%)
+        hsl(198deg 66% 51%),
+        hsl(201deg 79% 43%)
     );
     --color-text-brand-subtle-action-button: light-dark(
-        hsl(264deg 95% 34%),
-        hsl(244deg 96% 82%)
+        hsl(204deg 95% 34%),
+        hsl(184deg 96% 82%)
     );
     --color-background-brand-subtle-action-button: light-dark(
-        color-mix(in oklch, hsl(254deg 99% 68%) 12%, transparent),
-        color-mix(in oklch, hsl(246deg 96% 79%) 12%, transparent)
+        color-mix(in oklch, hsl(194deg 99% 68%) 12%, transparent),
+        color-mix(in oklch, hsl(186deg 96% 79%) 12%, transparent)
     );
     --color-background-brand-subtle-action-button-hover: light-dark(
-        color-mix(in oklch, hsl(254deg 99% 68%) 17%, transparent),
-        color-mix(in oklch, hsl(246deg 96% 79%) 17%, transparent)
+        color-mix(in oklch, hsl(194deg 99% 68%) 17%, transparent),
+        color-mix(in oklch, hsl(186deg 96% 79%) 17%, transparent)
     );
     --color-background-brand-subtle-action-button-active: light-dark(
-        color-mix(in oklch, hsl(254deg 99% 68%) 22%, transparent),
-        color-mix(in oklch, hsl(246deg 96% 79%) 12%, transparent)
+        color-mix(in oklch, hsl(194deg 99% 68%) 22%, transparent),
+        color-mix(in oklch, hsl(186deg 96% 79%) 12%, transparent)
     );
     --color-text-brand-text-action-button: light-dark(
-        hsl(255deg 54% 50%),
-        hsl(246deg 96% 79%)
+        hsl(195deg 54% 50%),
+        hsl(186deg 96% 79%)
     );
     --color-background-brand-text-action-button-hover: light-dark(
-        color-mix(in oklch, hsl(264deg 100% 22%) 5%, transparent),
-        color-mix(in oklch, hsl(251deg 100% 72%) 14%, transparent)
+        color-mix(in oklch, hsl(204deg 100% 22%) 5%, transparent),
+        color-mix(in oklch, hsl(191deg 100% 72%) 14%, transparent)
     );
     --color-background-brand-text-action-button-active: light-dark(
-        color-mix(in oklch, hsl(264deg 100% 22%) 10%, transparent),
-        color-mix(in oklch, hsl(251deg 100% 72%) 18%, transparent)
+        color-mix(in oklch, hsl(204deg 100% 22%) 10%, transparent),
+        color-mix(in oklch, hsl(191deg 100% 72%) 18%, transparent)
     );
     /* Action buttons -- Info Variant */
     --color-text-info-solid-action-button: light-dark(
@@ -2733,28 +2732,28 @@
     );
     /* Icon buttons -- Brand Variant */
     --color-text-brand-icon-button: light-dark(
-        color-mix(in oklch, hsl(255deg 54% 50%) 70%, transparent),
-        color-mix(in oklch, hsl(246deg 96 79%) 70%, transparent)
+        color-mix(in oklch, hsl(195deg 54% 50%) 70%, transparent),
+        color-mix(in oklch, hsl(186deg 96 79%) 70%, transparent)
     );
     --color-text-brand-icon-button-hover: light-dark(
-        hsl(255deg 54% 50%),
-        hsl(246deg 96% 79%)
+        hsl(195deg 54% 50%),
+        hsl(186deg 96% 79%)
     );
     --color-text-brand-icon-button-active: light-dark(
-        color-mix(in oklch, hsl(255deg 54% 50%) 70%, transparent),
-        color-mix(in oklch, hsl(246deg 96% 79%) 70%, transparent)
+        color-mix(in oklch, hsl(195deg 54% 50%) 70%, transparent),
+        color-mix(in oklch, hsl(186deg 96% 79%) 70%, transparent)
     );
     --color-text-brand-icon-button-square-active: light-dark(
-        hsl(255deg 54% 50%),
-        hsl(246deg 96% 79%)
+        hsl(195deg 54% 50%),
+        hsl(186deg 96% 79%)
     );
     --color-background-brand-icon-button-square-hover: light-dark(
-        color-mix(in oklch, hsl(264deg 100% 22%) 5%, transparent),
-        color-mix(in oklch, hsl(251deg 100% 72%) 14%, transparent)
+        color-mix(in oklch, hsl(204deg 100% 22%) 5%, transparent),
+        color-mix(in oklch, hsl(191deg 100% 72%) 14%, transparent)
     );
     --color-background-brand-icon-button-square-active: light-dark(
-        color-mix(in oklch, hsl(264deg 100% 22%) 10%, transparent),
-        color-mix(in oklch, hsl(251deg 100% 72%) 18%, transparent)
+        color-mix(in oklch, hsl(204deg 100% 22%) 10%, transparent),
+        color-mix(in oklch, hsl(191deg 100% 72%) 18%, transparent)
     );
     /* Icon buttons -- Info Variant */
     --color-text-info-icon-button: light-dark(
@@ -2878,16 +2877,16 @@
     );
     /* Banners - Brand Variant */
     --color-text-brand-banner: light-dark(
-        hsl(264deg 95% 34%),
-        hsl(244deg 96% 82%)
+        hsl(204deg 95% 34%),
+        hsl(184deg 96% 82%)
     );
     --color-border-brand-banner: light-dark(
-        color-mix(in oklch, hsl(254deg 60% 50%) 40%, transparent),
-        color-mix(in oklch, hsl(253deg 70% 89%) 40%, transparent)
+        color-mix(in oklch, hsl(194deg 60% 50%) 40%, transparent),
+        color-mix(in oklch, hsl(193deg 70% 89%) 40%, transparent)
     );
     --color-background-brand-banner: light-dark(
-        hsl(254deg 42% 94%),
-        hsl(254deg 49% 16%)
+        hsl(194deg 42% 94%),
+        hsl(194deg 49% 16%)
     );
     /* Banners - Info Variant */
     --color-text-info-banner: light-dark(

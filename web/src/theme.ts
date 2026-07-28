@@ -8,27 +8,15 @@ import {user_settings} from "./user_settings.ts";
 
 const ls = localstorage();
 
-function set_dark_theme(): void {
-    $(":root").removeClass("color-scheme-automatic").addClass("dark-theme");
-}
-
 function set_light_theme(): void {
     $(":root").removeClass("color-scheme-automatic").removeClass("dark-theme");
 }
 
-function set_automatic_theme(): void {
-    $(":root").removeClass("dark-theme").addClass("color-scheme-automatic");
-}
-
-export function set_theme(color_scheme: number): void {
-    if (color_scheme === settings_config.color_scheme_values.dark.code) {
-        set_dark_theme();
-    } else if (color_scheme === settings_config.color_scheme_values.light.code) {
-        set_light_theme();
-    } else {
-        // If the color_scheme_code is not valid, fallback to automatic.
-        set_automatic_theme();
-    }
+export function set_theme(_color_scheme: number): void {
+    // Our deployment is locked to the light theme regardless of the
+    // stored user/org preference; the theme picker UI is hidden to
+    // match (see settings.css/popovers.css).
+    set_light_theme();
 }
 
 export function set_theme_and_update(color_scheme: number): void {
