@@ -1716,6 +1716,27 @@ div.topic_edit_spinner .loading_indicator_spinner {
     }
 }
 
+/* The right sidebar (user list) is removed entirely — this is a
+   DM-only messenger, so a separate presence panel is unnecessary.
+   The middle column reclaims the freed width, matching how the app
+   already looks with the sidebar manually hidden. */
+.app-main .column-right {
+    display: none !important;
+}
+
+#userlist-toggle {
+    display: none !important;
+}
+
+#navbar-middle {
+    margin-right: 7px !important;
+}
+
+#compose-content,
+.app-main .column-middle {
+    margin-right: 7px !important;
+}
+
 .hide-left-sidebar {
     .app-main {
         @extend %hide-left-sidebar;
