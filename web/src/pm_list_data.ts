@@ -53,7 +53,48 @@ export type DisplayObject = {
     is_bot: boolean;
     has_unread_mention: boolean;
     includes_deactivated_user: boolean;
+    initials: string;
 };
+
+function get_initials(full_name: string): string {
+    const words = full_name.trim().split(/\s+/);
+    const first = words.at(0)?.[0] ?? "";
+    const last = words.length > 1 ? (words.at(-1)?.[0] ?? "") : "";
+    return (first + last).toUpperCase();
+}
+
+export type PersonSearchResult = {
+    full_name: string;
+    initials: string;
+    url: string;
+};
+
+const max_people_search_results = 8;
+
+// Beyond filtering the conversations already shown in the left
+// sidebar, search should also be able to find any organization
+// member and jump straight to a direct message with them, even if
+// there's no existing conversation with them yet.
+export function get_people_search_results(search_term: string): PersonSearchResult[] {
+    if (search_term === "") {
+        return [];
+    }
+    const lower_search_term = search_term.toLowerCase();
+    return people
+        .get_realm_users()
+        .filter(
+            (person) =>
+                !people.is_my_user_id(person.user_id) &&
+                !person.is_bot &&
+                person.full_name.toLowerCase().includes(lower_search_term),
+        )
+        .slice(0, max_people_search_results)
+        .map((person) => ({
+            full_name: person.full_name,
+            initials: get_initials(person.full_name),
+            url: hash_util.pm_with_url(String(person.user_id)),
+        }));
+}
 
 export function get_conversations(search_string = ""): DisplayObject[] {
     const conversations = pm_conversations.recent.get();
@@ -97,6 +138,9 @@ export function get_conversations(search_string = ""): DisplayObject[] {
         let status_emoji_info: UserStatusEmojiInfo | undefined;
         let is_bot = false;
         let is_current_user = false;
+        // We always show initials rather than a photo (uploaded avatar
+        // or third-party Gravatar image) in this deployment.
+        let initials = "";
 
         if (!is_group) {
             const user_id = Number.parseInt(user_ids_string, 10);
@@ -105,6 +149,7 @@ export function get_conversations(search_string = ""): DisplayObject[] {
                 includes_deactivated_user,
             );
             const recipient_user_obj = people.get_by_user_id(user_id);
+            initials = get_initials(recipient_user_obj.full_name);
 
             if (recipient_user_obj.is_bot) {
                 is_bot = true;
@@ -128,6 +173,7 @@ export function get_conversations(search_string = ""): DisplayObject[] {
             has_unread_mention,
             includes_deactivated_user,
             is_current_user,
+            initials,
         };
         display_objects.push(display_object);
     }

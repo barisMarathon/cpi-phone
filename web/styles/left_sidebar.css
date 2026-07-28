@@ -440,6 +440,21 @@
             outline-offset: -2px;
         }
     }
+
+    /* A bigger, fully-rounded pill search box, to feel like a
+       "search for a person" bar rather than a small filter field. */
+    .input-element {
+        border-radius: 999px;
+        padding-top: 0.45em;
+        padding-bottom: 0.45em;
+    }
+
+    &.has-input-icon .input-element {
+        padding-left: calc(
+            var(--input-icon-starting-offset) + var(--input-icon-width) +
+                var(--input-icon-content-gap) + 0.25em
+        );
+    }
 }
 
 .stream-list-subsection-header {
@@ -2285,6 +2300,12 @@ li.topic-list-item {
     }
 }
 
+.dm-list-item {
+    /* Give DM rows a bigger icon column so a profile-photo-style
+       avatar circle fits, instead of just a small status dot. */
+    --left-sidebar-icon-column-width: 1.8em;
+}
+
 .dm-box {
     user-select: text;
     grid-template-columns:
@@ -2303,6 +2324,48 @@ li.topic-list-item {
         &:not(.user-circle) {
             place-self: start center;
         }
+    }
+
+    .dm-list-avatar {
+        grid-area: starting-anchor-element;
+        place-self: center;
+        position: relative;
+        width: var(--left-sidebar-icon-column-width);
+        height: var(--left-sidebar-icon-column-width);
+    }
+
+    .dm-list-avatar-initials {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: var(--color-background-brand-subtle-action-button);
+        color: var(--color-text-brand-subtle-action-button);
+        font-size: 0.6em;
+        font-weight: 600;
+    }
+
+    .dm-list-avatar-status.user-circle {
+        /* Becoming absolutely positioned makes this compute to
+           display:block, so without an explicit size it would
+           stretch to the (much taller) inherited row line-height
+           instead of tightly wrapping the small status dot glyph. */
+        position: absolute;
+        right: -0.0625em;
+        bottom: -0.0625em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 0.7em;
+        height: 0.7em;
+        line-height: 1;
+        /* Small ring around the status dot so it stands out
+           against the initials avatar behind it. */
+        background: var(--color-background);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px var(--color-background);
     }
 
     .dm-name {

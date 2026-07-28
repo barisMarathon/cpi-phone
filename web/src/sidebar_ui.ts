@@ -3,6 +3,7 @@ import _ from "lodash";
 import assert from "minimalistic-assert";
 
 import render_left_sidebar from "../templates/left_sidebar.hbs";
+import render_left_sidebar_people_search_result from "../templates/left_sidebar_people_search_result.hbs";
 import render_buddy_list_popover from "../templates/popovers/buddy_list_popover.hbs";
 import render_right_sidebar from "../templates/right_sidebar.hbs";
 
@@ -20,6 +21,7 @@ import * as message_reminder from "./message_reminder.ts";
 import * as message_viewport from "./message_viewport.ts";
 import {page_params} from "./page_params.ts";
 import * as pm_list from "./pm_list.ts";
+import * as pm_list_data from "./pm_list_data.ts";
 import * as popover_menus from "./popover_menus.ts";
 import * as popovers from "./popovers.ts";
 import * as resize from "./resize.ts";
@@ -635,9 +637,21 @@ function actually_update_left_sidebar_for_search(): void {
 
     resize.resize_page_components();
     left_sidebar_cursor.reset();
+
+    // Beyond filtering the streams/conversations already in the left
+    // sidebar, let search also jump straight to a direct message with
+    // any organization member, even ones without an existing
+    // conversation yet.
+    const people_search_results = pm_list_data.get_people_search_results(search_value);
+    const $people_search_results = $("#left-sidebar-people-search-results");
+    $people_search_results.html(
+        people_search_results.map((result) => render_left_sidebar_people_search_result(result)).join(""),
+    );
+    $people_search_results.toggleClass("hidden", people_search_results.length === 0);
+
     $("#left-sidebar-empty-list-message").toggleClass(
         "hidden",
-        !is_left_sidebar_search_active || all_rows().length > 0,
+        !is_left_sidebar_search_active || all_rows().length > 0 || people_search_results.length > 0,
     );
 }
 
