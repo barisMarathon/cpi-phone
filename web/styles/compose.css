@@ -1267,6 +1267,22 @@ textarea.new_message_textarea {
     display: block !important;
 }
 
+/* Our deployment is direct-message only: hide the channel/direct
+   message type selector entirely and always show the "Add users"
+   recipient row instead of the channel/topic row, regardless of
+   whatever message type compose_recipient.ts's show()/hide() calls
+   last set inline (see also the matching compose_state.ts change
+   that keeps the underlying message type permanently "private"). */
+#compose_select_recipient_widget_wrapper,
+.topic-marker-container,
+#compose-channel-recipient {
+    display: none !important;
+}
+
+#compose-direct-recipient {
+    display: grid !important;
+}
+
 /* We want transitions to run only on user interactions with
    the mouse, once the compose box is open. Any keyboard
    interactions (e.g., Shift-Tabbing from the compose textarea

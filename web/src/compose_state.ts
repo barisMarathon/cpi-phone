@@ -4,7 +4,9 @@ import * as compose_pm_pill from "./compose_pm_pill.ts";
 import * as stream_data from "./stream_data.ts";
 import * as sub_store from "./sub_store.ts";
 
-let message_type: "stream" | "private" | undefined;
+// Our deployment is direct-message only (see set_message_type below),
+// so this starts out already set to "private" rather than undefined.
+let message_type: "stream" | "private" | undefined = "private";
 let recipient_edited_manually = false;
 let is_content_unedited_restored_draft = false;
 let last_focused_compose_type_input: HTMLTextAreaElement | undefined;
@@ -45,8 +47,11 @@ export function get_last_focused_compose_type_input(): HTMLTextAreaElement | und
     return last_focused_compose_type_input;
 }
 
-export function set_message_type(msg_type: "stream" | "private" | undefined): void {
-    message_type = msg_type;
+export function set_message_type(_msg_type: "stream" | "private" | undefined): void {
+    // Our deployment is direct-message only; channel/stream composing
+    // is never offered, so we ignore whatever type callers request
+    // and always stay in "private" mode.
+    message_type = "private";
 }
 
 export function get_message_type(): "stream" | "private" | undefined {
