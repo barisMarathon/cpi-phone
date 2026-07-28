@@ -2448,6 +2448,14 @@ li.topic-list-item {
     display: none;
 }
 
+/* This "+" (start a new DM) button is buggy in our always-DM-mode
+   compose setup; deactivated rather than removed from the template,
+   since the top sidebar search already covers starting a
+   conversation with anyone. */
+.compose-new-direct-message {
+    display: none !important;
+}
+
 #left-sidebar.direct-messages-hidden-by-filters,
 .spectator-view {
     #direct-messages-section-header {
