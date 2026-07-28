@@ -1180,11 +1180,11 @@ nav {
 
         .nav-logo {
             display: inline-block;
-            height: 1.25em; /* 20px at 16px em */
+            height: 1.75em; /* 28px at 16px em */
             max-width: var(--realm-logo-max-width);
 
             @media (height < $short_navbar_cutoff_height) {
-                height: 0.9375em; /* 15px at 16px em */
+                height: 1.3125em; /* 21px at 16px em */
             }
         }
 
@@ -1698,6 +1698,21 @@ div.topic_edit_spinner .loading_indicator_spinner {
                 width: var(--left-sidebar-width);
             }
         }
+    }
+}
+
+/* The left sidebar should always stay open on non-narrow screens; the
+   manual collapse toggle button is hidden to match (below). This only
+   overrides the manual/localStorage-driven collapse above the medium
+   breakpoint — the separate narrow-screen overlay behavior (used when
+   there isn't room for a permanent sidebar) is untouched. */
+@media (width >= $md_min) {
+    .hide-left-sidebar .app-main .column-left {
+        display: block !important;
+    }
+
+    .left-sidebar-toggle-button {
+        display: none !important;
     }
 }
 
