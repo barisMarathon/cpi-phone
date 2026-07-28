@@ -1,7 +1,8 @@
 import $ from "jquery";
 
+import cpi_logo_icon from "../images/cpi-logo-icon.png";
+
 import * as channel from "./channel.ts";
-import * as settings_data from "./settings_data.ts";
 import {current_user, realm} from "./state_data.ts";
 import * as ui_util from "./ui_util.ts";
 import * as upload_widget from "./upload_widget.ts";
@@ -89,12 +90,11 @@ export function render(): void {
         $("#realm-night-logo-upload-widget .image-block").attr("src", realm.realm_night_logo_url);
     }
 
+    // Our deployment uses a fixed CPI Phone logo in the navbar,
+    // regardless of the organization's configured logo (used above
+    // for the settings page previews only).
     const $realm_logo = $<HTMLImageElement>("#realm-navbar-wide-logo");
-    if (settings_data.using_dark_theme() && realm.realm_night_logo_source !== "D") {
-        $realm_logo.attr("src", realm.realm_night_logo_url);
-    } else {
-        $realm_logo.attr("src", realm.realm_logo_url);
-    }
+    $realm_logo.attr("src", cpi_logo_icon);
 
     $realm_logo.on("load", () => {
         const logo_width = $realm_logo.width();
