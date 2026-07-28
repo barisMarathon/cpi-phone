@@ -1724,12 +1724,19 @@ div.topic_edit_spinner .loading_indicator_spinner {
     display: none !important;
 }
 
+/* Only the toggle *button* goes away — #navbar-middle still needs
+   margin-right: var(--right-column-collapsed-sidebar-width) (below)
+   to keep reserving space for its sibling .column-right, which holds
+   the help/gear/personal-menu icons in the navbar itself (a
+   completely different element from the sidebar .column-right this
+   rule is named after — they just share a class name). Setting that
+   margin any smaller made the navbar's own icons get covered up. */
 #userlist-toggle {
     display: none !important;
 }
 
 #navbar-middle {
-    margin-right: 7px !important;
+    margin-right: var(--right-column-collapsed-sidebar-width) !important;
 }
 
 #compose-content,

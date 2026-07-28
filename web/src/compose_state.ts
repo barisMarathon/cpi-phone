@@ -4,9 +4,7 @@ import * as compose_pm_pill from "./compose_pm_pill.ts";
 import * as stream_data from "./stream_data.ts";
 import * as sub_store from "./sub_store.ts";
 
-// Our deployment is direct-message only (see set_message_type below),
-// so this starts out already set to "private" rather than undefined.
-let message_type: "stream" | "private" | undefined = "private";
+let message_type: "stream" | "private" | undefined;
 let recipient_edited_manually = false;
 let is_content_unedited_restored_draft = false;
 let last_focused_compose_type_input: HTMLTextAreaElement | undefined;
@@ -47,11 +45,15 @@ export function get_last_focused_compose_type_input(): HTMLTextAreaElement | und
     return last_focused_compose_type_input;
 }
 
-export function set_message_type(_msg_type: "stream" | "private" | undefined): void {
+export function set_message_type(msg_type: "stream" | "private" | undefined): void {
     // Our deployment is direct-message only; channel/stream composing
-    // is never offered, so we ignore whatever type callers request
-    // and always stay in "private" mode.
-    message_type = "private";
+    // is never offered, so "stream" becomes "private" instead. We
+    // still pass "undefined" through unchanged, since composing()
+    // below (and its callers) rely on it to mean "compose box hasn't
+    // been started yet" — forcing it to always be truthy broke that
+    // and crashed resize.ts, which assumes compose's DOM is ready
+    // whenever composing() is true.
+    message_type = msg_type === "stream" ? "private" : msg_type;
 }
 
 export function get_message_type(): "stream" | "private" | undefined {

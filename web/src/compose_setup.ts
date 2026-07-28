@@ -813,4 +813,20 @@ export function initialize(): void {
             compose_actions.start({message_type: "stream"});
         }
     }
+
+    // Our deployment keeps the compose box visually open at all
+    // times (see compose.css), but nothing else used to actually
+    // start() it in that case — previously only the (now hidden)
+    // "New direct message" button did. Without this, message_type
+    // stayed undefined, which both broke resize.ts (which assumes
+    // compose's DOM is ready whenever composing() is true) and caused
+    // compose to incorrectly validate as if it were a channel message
+    // with no channel selected.
+    if (!compose_state.composing()) {
+        compose_actions.start({
+            message_type: "private",
+            trigger: "always-open compose",
+            keep_composebox_empty: true,
+        });
+    }
 }
