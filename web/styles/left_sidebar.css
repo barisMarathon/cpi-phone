@@ -2375,6 +2375,12 @@ li.topic-list-item {
     display: none !important;
 }
 
+/* The Views section (Inbox, Combined feed, Mentions, etc.) is hidden;
+   only Direct messages and channels are shown in the left sidebar. */
+#left-sidebar-navigation-area {
+    display: none;
+}
+
 #left-sidebar-navigation-area.hidden-by-filters {
     display: none;
 }
