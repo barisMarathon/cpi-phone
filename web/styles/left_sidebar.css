@@ -2303,7 +2303,7 @@ li.topic-list-item {
 .dm-list-item {
     /* Give DM rows a bigger icon column so a profile-photo-style
        avatar circle fits, instead of just a small status dot. */
-    --left-sidebar-icon-column-width: 1.8em;
+    --left-sidebar-icon-column-width: 2.3em;
 }
 
 .dm-box {
@@ -2343,7 +2343,7 @@ li.topic-list-item {
         border-radius: 50%;
         background-color: var(--color-background-brand-subtle-action-button);
         color: var(--color-text-brand-subtle-action-button);
-        font-size: 0.6em;
+        font-size: 0.75em;
         font-weight: 600;
     }
 
@@ -2358,8 +2358,8 @@ li.topic-list-item {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 0.7em;
-        height: 0.7em;
+        width: 0.85em;
+        height: 0.85em;
         line-height: 1;
         /* Small ring around the status dot so it stands out
            against the initials avatar behind it. */
