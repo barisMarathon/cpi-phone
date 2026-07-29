@@ -34,6 +34,7 @@ import * as compose_recipient from "./compose_recipient.ts";
 import * as compose_reply from "./compose_reply.ts";
 import * as compose_send_menu_popover from "./compose_send_menu_popover.ts";
 import * as compose_setup from "./compose_setup.ts";
+import * as compose_state from "./compose_state.ts";
 import * as compose_textarea from "./compose_textarea.ts";
 import * as compose_tooltips from "./compose_tooltips.ts";
 import * as compose_validate from "./compose_validate.ts";
@@ -645,6 +646,12 @@ export async function initialize_everything(state_data) {
     compose_recipient.initialize();
     compose_pm_pill.initialize({
         on_pill_create_or_remove() {
+            // Our deployment is direct-message only: adding or removing
+            // someone here should always mean we're composing a DM,
+            // regardless of whatever message_type compose was last left
+            // in (e.g. still undefined because no narrow-based
+            // auto-start has happened yet).
+            compose_state.set_message_type("private");
             compose_recipient.update_compose_area_placeholder_text();
             compose_validate.validate_and_update_send_button_status();
         },
