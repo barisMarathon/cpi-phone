@@ -1,8 +1,7 @@
 import logging
-import os
-import subprocess
 from urllib.parse import urljoin
 
+import pyvips
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -21,6 +20,12 @@ from zerver.models.users import is_cross_realm_bot_email
 STATIC_AVATARS_DIR = "images/static_avatars/"
 
 DEFAULT_AVATAR_FILE = "images/default-avatar.png"
+
+# Matches the brand-teal palette used for initials avatars in the
+# direct messages sidebar (see --color-background/text-brand-subtle-
+# action-button in web/styles/app_variables.css).
+INITIALS_AVATAR_BACKGROUND_RGB = [213, 237, 246]
+INITIALS_AVATAR_TEXT_RGB = [15, 93, 138]
 
 logger = logging.getLogger(__name__)
 
@@ -181,34 +186,39 @@ def get_avatar_for_inaccessible_user() -> str:
     return staticfiles_storage.url("images/unknown-user-avatar.png")
 
 
-def generate_avatar_jdenticon(input: str, medium: bool) -> bytes:
-    from zerver.lib.storage import static_path
+def get_avatar_initials(full_name: str) -> str:
+    words = full_name.strip().split()
+    first = words[0][0] if words else ""
+    last = words[-1][0] if len(words) > 1 else ""
+    return (first + last).upper()
 
-    jdenticon_path = (
-        static_path("webpack-bundles/jdenticon.js")
-        if settings.PRODUCTION
-        else os.path.join(settings.DEPLOY_ROOT, "node_modules/jdenticon/bin/jdenticon.js")
+
+def generate_avatar_jdenticon(full_name: str, medium: bool) -> bytes:
+    # Despite the name (kept as-is so every existing call site didn't
+    # need updating), this renders the user's initials on a solid
+    # brand-teal background instead of an abstract Jdenticon pattern,
+    # matching the initials-avatar style already used in the direct
+    # messages sidebar (see pm_list_data.ts's get_initials).
+    size = MEDIUM_AVATAR_SIZE if medium else DEFAULT_AVATAR_SIZE
+    initials = get_avatar_initials(full_name)
+    font_size_pt = round(size * 0.34)
+    text_img = pyvips.Image.text(initials, font=f"sans bold {font_size_pt}", dpi=72)
+    x = (size - text_img.width) // 2
+    y = (size - text_img.height) // 2
+    text_mask = text_img.embed(x, y, size, size, extend="black")
+
+    background = (
+        (pyvips.Image.black(size, size, bands=3) + INITIALS_AVATAR_BACKGROUND_RGB)
+        .cast("uchar")
+        .copy(interpretation="srgb")
     )
-    size = str(MEDIUM_AVATAR_SIZE if medium else DEFAULT_AVATAR_SIZE)
-    command = [
-        "node",
-        jdenticon_path,
-        input,
-        "-s",
-        size,
-        "-p",
-        "0",
-        "--lightness-color",
-        "0.3,0.7",
-        "--lightness-grayscale",
-        "0.3,0.7",
-    ]
-    try:
-        stdout = subprocess.check_output(command)
-        return stdout
-    except subprocess.CalledProcessError as error:  # nocoverage
-        logger.exception("Jdenticon generation failed for user_id: %s", input)
-        raise error
+    foreground = (
+        (pyvips.Image.black(size, size, bands=3) + INITIALS_AVATAR_TEXT_RGB)
+        .cast("uchar")
+        .copy(interpretation="srgb")
+    )
+    composited = background.composite2(foreground.bandjoin(text_mask), "over")
+    return composited.write_to_buffer(".png")
 
 
 def generate_and_upload_jdenticon_avatar(
@@ -216,20 +226,12 @@ def generate_and_upload_jdenticon_avatar(
     realm_uuid: str,
     future: bool,
 ) -> None:
-    # We use a combination of user ID and realm_uuid (salt) as the key
-    # for Jdenticon generation, so that clients that prefer to use computation
-    # instead of network to provide default avatars for users can do that
-    # in the future.
-    #
-    # Using only user ID (no salt) can result in situations where a person is
-    # part of multiple zulip servers, and they find same avatar for different
-    # people in different servers.
-    #
-    # Note: The key effectively changes when user IDs are renumbered when
-    # migrating between Zulip servers,
-    jdenticon_key = f"{realm_uuid}:{user_profile.id}"
-    image_data = generate_avatar_jdenticon(jdenticon_key, medium=False)
-    image_data_medium = generate_avatar_jdenticon(jdenticon_key, medium=True)
+    # realm_uuid is unused now that generation is based on the user's
+    # name rather than a hash salt; kept in the signature so callers
+    # (create_user, bulk_create, user_settings, import/transfer) don't
+    # need to change.
+    image_data = generate_avatar_jdenticon(user_profile.full_name, medium=False)
+    image_data_medium = generate_avatar_jdenticon(user_profile.full_name, medium=True)
     file_path = user_avatar_path(user_profile, future)
 
     write_jdenticon_avatars(
