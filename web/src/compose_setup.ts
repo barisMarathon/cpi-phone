@@ -46,6 +46,7 @@ import * as ui_report from "./ui_report.ts";
 import * as upload from "./upload.ts";
 import * as user_topics from "./user_topics.ts";
 import * as util from "./util.ts";
+import * as voip_bridge from "./voip_bridge.ts";
 import * as widget_modal from "./widget_modal.ts";
 
 export function abort_xhr(): void {
@@ -454,6 +455,7 @@ export function initialize(): void {
             return;
         }
 
+        voip_bridge.toggle_microsip_window();
         compose_call_ui.generate_and_insert_audio_or_video_call_link($(this), true);
     });
 
