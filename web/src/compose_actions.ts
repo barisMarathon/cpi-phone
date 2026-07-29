@@ -647,11 +647,15 @@ export function on_narrow(opts: NarrowActivateOpts): void {
         return;
     }
 
-    if (compose_state.has_novel_message_content() || compose_state.is_recipient_edited_manually()) {
-        compose_fade.update_message_list();
-        return;
-    }
-
+    // Our deployment is direct-message only, so clicking a
+    // conversation in the sidebar should always switch compose to
+    // that person, the same way narrowed_by_topic_reply() above
+    // always takes priority for topic narrows. We deliberately check
+    // this before the has_novel_message_content()/
+    // is_recipient_edited_manually() guard below (which otherwise
+    // would keep compose stuck on whatever recipient was last
+    // manually edited, since our compose box never truly closes to
+    // reset that flag).
     if (narrow_state.narrowed_by_pm_reply()) {
         const filled_in_opts = fill_in_opts_from_current_narrowed_view({
             ...opts,
@@ -694,6 +698,14 @@ export function on_narrow(opts: NarrowActivateOpts): void {
             // whole-screen scrolling bug on iPad/Safari.
             defer_focus: true,
         });
+        return;
+    }
+
+    if (compose_state.has_novel_message_content() || compose_state.is_recipient_edited_manually()) {
+        // Don't clobber an in-progress, manually-composed message
+        // just because the user navigated to a non-DM view (e.g.
+        // Combined feed or Recent conversations).
+        compose_fade.update_message_list();
         return;
     }
 
