@@ -95,7 +95,7 @@ Example:
                 except IntegrityError:
                     skipped_existing += 1
                 except Exception as e:  # noqa: BLE001
-                    failed.append((email, str(e)))
+                    failed.append((email, f"{type(e).__name__}: {e}"))
 
                 if row_number % 200 == 0:
                     logger.info("Processed %d rows so far...", row_number)
