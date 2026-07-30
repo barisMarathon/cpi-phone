@@ -177,6 +177,7 @@ import * as user_status_ui from "./user_status_ui.ts";
 import * as user_topic_popover from "./user_topic_popover.ts";
 import * as user_topics from "./user_topics.ts";
 import * as util from "./util.ts";
+import * as voip_bridge from "./voip_bridge.ts";
 import * as watchdog from "./watchdog.ts";
 import * as widgets from "./widgets.ts";
 
@@ -696,6 +697,7 @@ export async function initialize_everything(state_data) {
     unread_ops.initialize();
     gear_menu.initialize();
     navbar_help_menu.initialize();
+    voip_bridge.initialize();
     gif_picker_ui.initialize();
     presence.initialize(state_data.presence);
     settings_preferences.initialize();

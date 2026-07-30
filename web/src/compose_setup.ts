@@ -46,7 +46,6 @@ import * as ui_report from "./ui_report.ts";
 import * as upload from "./upload.ts";
 import * as user_topics from "./user_topics.ts";
 import * as util from "./util.ts";
-import * as voip_bridge from "./voip_bridge.ts";
 import * as widget_modal from "./widget_modal.ts";
 
 export function abort_xhr(): void {
@@ -70,9 +69,6 @@ export function initialize(): void {
 
     $(".compose-control-buttons-container .video_link").toggle(
         compose_call.compute_show_video_chat_button(),
-    );
-    $(".compose-control-buttons-container .audio_link").toggle(
-        compose_call.compute_show_audio_chat_button(),
     );
 
     $("textarea#compose-textarea").on("keydown", (event) => {
@@ -443,20 +439,6 @@ export function initialize(): void {
         }
 
         compose_call_ui.generate_and_insert_audio_or_video_call_link($(this), false);
-    });
-
-    $("body").on("click", ".audio_link", function (this: HTMLElement, e): void {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const show_audio_chat_button = compose_call.compute_show_audio_chat_button();
-
-        if (!show_audio_chat_button) {
-            return;
-        }
-
-        voip_bridge.toggle_microsip_window();
-        compose_call_ui.generate_and_insert_audio_or_video_call_link($(this), true);
     });
 
     $("body").on("click", ".time_pick", function (this: HTMLElement, e) {

@@ -31,8 +31,10 @@ export function update_video_chat_button_display(): void {
 }
 
 export function update_audio_chat_button_display(): void {
+    // The main compose toolbar no longer has an .audio_link button (it
+    // moved to the navbar, see voip_bridge.ts); only the message-edit
+    // toolbar's still needs this.
     const show_audio_chat_button = compose_call.compute_show_audio_chat_button();
-    $(".compose-control-buttons-container .audio_link").toggle(show_audio_chat_button);
     $(".message-edit-feature-group .audio_link").toggle(show_audio_chat_button);
 }
 
