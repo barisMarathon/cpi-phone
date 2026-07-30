@@ -2,6 +2,7 @@ import $ from "jquery";
 import * as z from "zod/mini";
 
 import * as channel from "./channel.ts";
+import * as compose from "./compose.ts";
 import * as compose_banner from "./compose_banner.ts";
 import * as compose_call from "./compose_call.ts";
 import {compose_call_session_manager} from "./compose_call_session.ts";
@@ -38,9 +39,26 @@ export function update_audio_chat_button_display(): void {
     $(".message-edit-feature-group .audio_link").toggle(show_audio_chat_button);
 }
 
-function insert_video_call_url(url: string, $target_textarea: JQuery<HTMLTextAreaElement>): void {
+function insert_video_call_url(
+    url: string,
+    $target_textarea: JQuery<HTMLTextAreaElement>,
+    auto_send_and_open: boolean,
+): void {
     const link_text = $t({defaultMessage: "Join video call."});
     compose_ui.insert_syntax_and_focus(`[${link_text}](${url})`, $target_textarea, "block", 1);
+    if (auto_send_and_open) {
+        // Clicking the compose box's camera icon should immediately
+        // send the call link (no separate "Send" click) and take the
+        // caller straight into the call, like they'd clicked the link
+        // themselves. Only applies to the main compose box, not the
+        // message-edit toolbar's own video-call button. Only open the
+        // tab if the message actually sent (e.g. not if validation
+        // failed because no recipient is selected).
+        const sent = compose.finish();
+        if (sent) {
+            window.open(url, "_blank", "noopener,noreferrer");
+        }
+    }
 }
 
 function insert_audio_call_url(url: string, $target_textarea: JQuery<HTMLTextAreaElement>): void {
@@ -60,6 +78,7 @@ export function generate_and_insert_audio_or_video_call_link(
     } else {
         $target_textarea = $<HTMLTextAreaElement>("textarea#compose-textarea");
     }
+    const is_main_compose = edit_message_id === undefined;
 
     let xhr: JQuery.jqXHR<unknown> | undefined;
     const available_providers = realm.realm_available_video_chat_providers;
@@ -80,7 +99,7 @@ export function generate_and_insert_audio_or_video_call_link(
                 if (is_audio_call) {
                     insert_audio_call_url(data.url, $target_textarea);
                 } else {
-                    insert_video_call_url(data.url, $target_textarea);
+                    insert_video_call_url(data.url, $target_textarea, is_main_compose);
                 }
             };
             compose_call_session.maybe_run_xhr_callback(xhr, callback);
@@ -163,7 +182,7 @@ export function generate_and_insert_audio_or_video_call_link(
                         if (is_audio_call) {
                             insert_audio_call_url(data.url, $target_textarea);
                         } else {
-                            insert_video_call_url(data.url, $target_textarea);
+                            insert_video_call_url(data.url, $target_textarea, is_main_compose);
                         }
                     };
                     compose_call_session.maybe_run_xhr_callback(xhr, callback);
@@ -181,7 +200,7 @@ export function generate_and_insert_audio_or_video_call_link(
                 const handle_success = (response: unknown): void => {
                     const callback = (): void => {
                         const data = call_response_schema.parse(response);
-                        insert_video_call_url(data.url, $target_textarea);
+                        insert_video_call_url(data.url, $target_textarea, is_main_compose);
                     };
                     compose_call_session.maybe_run_xhr_callback(xhr, callback);
                 };
@@ -216,7 +235,7 @@ export function generate_and_insert_audio_or_video_call_link(
                 const handle_success = (response: unknown): void => {
                     const callback = (): void => {
                         const data = call_response_schema.parse(response);
-                        insert_video_call_url(data.url, $target_textarea);
+                        insert_video_call_url(data.url, $target_textarea, is_main_compose);
                     };
                     compose_call_session.maybe_run_xhr_callback(xhr, callback);
                 };
@@ -271,7 +290,7 @@ export function generate_and_insert_audio_or_video_call_link(
                 if (is_audio_call) {
                     insert_audio_call_url(video_call_link, $target_textarea);
                 } else {
-                    insert_video_call_url(video_call_link, $target_textarea);
+                    insert_video_call_url(video_call_link, $target_textarea, is_main_compose);
                 }
                 break;
             }
